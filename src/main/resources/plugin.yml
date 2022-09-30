@@ -1,0 +1,11 @@
+name: KothEventPlugin
+version: '${project.version}'
+main: me.iron.kotheventplugin.PluginManager
+api-version: 1.19
+commands:
+  kit:
+    usage: /kit
+    description: use this command to obtain kits
+  team_select:
+    usage: /team_select [red, blue, green, yellow, orange, purple, pink, cyan]
+    description: join a team
