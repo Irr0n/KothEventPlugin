@@ -14,8 +14,8 @@ class RepeatTask(private var plugin: Plugin) {
      * @param period in ticks
      */
     fun generateRepeatTask(runnable: Runnable, period: Long) {
-        if (this.plugin.isEnabled) {
-            this.task = Bukkit.getScheduler().runTaskTimer(this.plugin, runnable, 0, period)
+        if (plugin.isEnabled) {
+            task = Bukkit.getScheduler().runTaskTimer(plugin, runnable, 0, period)
         } else {
             runnable.run()
         }

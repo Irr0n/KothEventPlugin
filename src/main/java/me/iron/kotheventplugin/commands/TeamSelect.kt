@@ -17,16 +17,21 @@ class TeamSelect : CommandExecutor {
             return true
         }
 
-        if (args?.isEmpty() == true) {
+        if (args?.isEmpty() == true || args == null) {
             sender.sendMessage("You need to specify a team to join.")
         }
 
         val scoreboard = boardManager.getScoreboard()
 
+        println("you have stated" + args?.get(0))
+
         when (args?.get(0)) {
-            "red" -> (sender as Entity?)?.let { scoreboard?.getTeam("red")?.addEntity(it) }
-            "blue" -> (sender as Entity?)?.let { scoreboard?.getTeam("blue")?.addEntity(it) }
+            "red" -> (sender as Entity).let { scoreboard?.getTeam("red")?.addEntity(it) }
+            "blue" -> (sender as Entity).let { scoreboard?.getTeam("blue")?.addEntity(it) }
         }
+
+        sender.sendMessage("You have joined team " + (scoreboard?.getEntityTeam(sender as Entity)?.name ?: "none"))
+
         return true
     }
 }

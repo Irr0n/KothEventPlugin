@@ -22,7 +22,7 @@ class GameManager(private var plugin: PluginManager) {
     fun updatePlayerScoreboards() {
         for (player in Bukkit.getOnlinePlayers()) {
 
-            println(player.scoreboard.getEntityTeam((player as Entity)))
+            // println(player.scoreboard.getEntityTeam((player as Entity)))
             player.scoreboard = boardManager.getScoreboard()!!
         }
     }
