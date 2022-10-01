@@ -15,6 +15,7 @@ class BoardManager {
         private var objective = scoreboard.registerNewObjective("score", Criteria.DUMMY, "Score")
     }
 
+
     fun setupScoreboard() {
         objective.displaySlot = DisplaySlot.SIDEBAR
         // todo: name colors with prefix
