@@ -2,17 +2,14 @@ package me.iron.kotheventplugin.managers
 
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
-import org.bukkit.scoreboard.DisplaySlot
-import org.bukkit.scoreboard.Objective
-import org.bukkit.scoreboard.Scoreboard
-import org.bukkit.scoreboard.ScoreboardManager
+import org.bukkit.scoreboard.*
 
 class BoardManager {
 
     private val scoreboardManager = Bukkit.getScoreboardManager()
 
-    private val scoreboard = scoreboardManager.newScoreboard
-    var objective = scoreboard.registerNewObjective("score", "dummy", "Score")
+    val scoreboard = scoreboardManager.newScoreboard
+    private var objective = scoreboard.registerNewObjective("score", Criteria.DUMMY, "Score")
 
     fun setupScoreboard() {
         objective.displaySlot = DisplaySlot.SIDEBAR
@@ -54,11 +51,8 @@ class BoardManager {
 
     fun updateScoreboard() {}
 
-    fun getScoreboardManager(): ScoreboardManager? {
+    fun getScoreboardManager(): ScoreboardManager {
         return scoreboardManager
     }
 
-    fun getScoreboard(): Scoreboard? {
-        return scoreboard
-    }
 }

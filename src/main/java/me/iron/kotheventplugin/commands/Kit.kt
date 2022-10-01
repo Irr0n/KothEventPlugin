@@ -2,6 +2,7 @@ package me.iron.kotheventplugin.commands
 
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
+import org.bukkit.GameMode
 import org.bukkit.Material
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
@@ -11,32 +12,33 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.PotionMeta
+import org.bukkit.potion.PotionData
+import org.bukkit.potion.PotionEffectType
+import org.bukkit.potion.PotionType
 
 class Kit : CommandExecutor, Listener {
 
     private val invName = "Kit Selector"
 
-
     @EventHandler
     fun onInventoryClick(event: InventoryClickEvent) {
-        if (event.view.title != invName) {
-            return
-        }
+        if (event.view.title != invName) { return }
         val player = event.whoClicked as Player
         val slot = event.slot
         val currentPlayerInventory = player.inventory
         event.isCancelled = true
-
+        if (player.gameMode != GameMode.SPECTATOR) { return }
         when (slot) {
             11 -> {
-                combatItems.forEach { currentPlayerInventory.addItem(it) }
-                currentPlayerInventory.clear() }
+                currentPlayerInventory.clear()
+                combatItems.forEach { currentPlayerInventory.addItem(it) } }
             13 -> {
-                utilityItems.forEach { currentPlayerInventory.addItem(it) }
-                currentPlayerInventory.clear() }
+                currentPlayerInventory.clear()
+                utilityItems.forEach { currentPlayerInventory.addItem(it) } }
             15 -> {
-                gathererItems.forEach { currentPlayerInventory.addItem(it) }
-                currentPlayerInventory.clear() }
+                currentPlayerInventory.clear()
+                gathererItems.forEach { currentPlayerInventory.addItem(it) } }
         }
 
     }
@@ -81,6 +83,15 @@ class Kit : CommandExecutor, Listener {
         ItemStack(Material.GOLDEN_APPLE, 2),
     )
 
+
+    private fun customJumpPotion() : ItemStack {
+        val potion = ItemStack(Material.POTION);
+        val potionMeta = potion.itemMeta as PotionMeta
+        potionMeta.basePotionData = PotionData(PotionType.JUMP)
+        potion.itemMeta = potionMeta
+        return potion
+    }
+
     private val gathererItems = arrayListOf<ItemStack>(
         ItemStack(Material.IRON_PICKAXE),
         ItemStack(Material.TURTLE_HELMET),
@@ -88,8 +99,13 @@ class Kit : CommandExecutor, Listener {
         ItemStack(Material.STONE_SHOVEL),
         ItemStack(Material.STONE_HOE),
         ItemStack(Material.SHEARS),
-        // ItemStack(Material.POTION, 1, 0, 10),
+        customJumpPotion()
     )
+
+    private fun customGoatHorn() : ItemStack {
+        val goatHorn = ItemStack(Material.GOAT_HORN);
+        return goatHorn
+    }
 
     private val utilityItems = arrayListOf<ItemStack>(
         ItemStack(Material.FISHING_ROD),
@@ -97,11 +113,11 @@ class Kit : CommandExecutor, Listener {
         ItemStack(Material.LEATHER_CHESTPLATE),
         ItemStack(Material.CREEPER_SPAWN_EGG, 8),
         ItemStack(Material.TNT, 8),
-        // ItemStack(Material.GOAT_HORN, 1, 0, 0),
         ItemStack(Material.WHEAT_SEEDS, 8),
         ItemStack(Material.OAK_SAPLING, 2),
         ItemStack(Material.BIRCH_SAPLING, 2),
-        ItemStack(Material.BONE_MEAL, 32)
+        ItemStack(Material.BONE_MEAL, 32),
+        customGoatHorn()
     )
 
 }

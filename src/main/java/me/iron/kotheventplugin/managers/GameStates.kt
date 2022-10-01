@@ -1,5 +1,5 @@
 package me.iron.kotheventplugin.managers
 
-enum class GameState {
+enum class GameStates {
     LOBBY, PREP, START, END
 }

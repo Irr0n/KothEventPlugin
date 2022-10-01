@@ -19,18 +19,24 @@ class TeamSelect : CommandExecutor {
 
         if (args?.isEmpty() == true || args == null) {
             sender.sendMessage("You need to specify a team to join.")
+            return false
         }
 
-        val scoreboard = boardManager.getScoreboard()
+        val scoreboard = boardManager.scoreboard
 
-        println("you have stated" + args?.get(0))
+        println("you have stated " + args[0])
 
-        when (args?.get(0)) {
-            "red" -> (sender as Entity).let { scoreboard?.getTeam("red")?.addEntity(it) }
-            "blue" -> (sender as Entity).let { scoreboard?.getTeam("blue")?.addEntity(it) }
+        when (args[0]) {
+            "red" -> {
+                println("red")
+                println(scoreboard.teams)
+                (sender as Entity).let { scoreboard.getTeam("red")?.addEntity(it) }
+
+            }
+            "blue" -> (sender as Entity).let { scoreboard.getTeam("blue")?.addEntity(it) }
         }
 
-        sender.sendMessage("You have joined team " + (scoreboard?.getEntityTeam(sender as Entity)?.name ?: "none"))
+        sender.sendMessage("You have joined team " + (scoreboard.getEntityTeam(sender as Entity)?.name ?: "none"))
 
         return true
     }
