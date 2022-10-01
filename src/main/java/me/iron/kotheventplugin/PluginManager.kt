@@ -1,5 +1,6 @@
 package me.iron.kotheventplugin
 
+import me.iron.kotheventplugin.commands.GameState
 import me.iron.kotheventplugin.commands.Kit
 import me.iron.kotheventplugin.commands.TeamSelect
 import me.iron.kotheventplugin.managers.GameManager
@@ -23,6 +24,8 @@ class PluginManager : JavaPlugin() {
 
         getCommand("team_select")?.setExecutor(TeamSelect())
         getCommand("kit")?.setExecutor(Kit())
+        getCommand("game_state")?.setExecutor(GameState(this))
+        Bukkit.getPluginManager().registerEvents(GameState(this), this)
         Bukkit.getPluginManager().registerEvents(Kit(),this)
     }
     override fun onDisable() {}

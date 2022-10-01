@@ -1,58 +1,58 @@
 package me.iron.kotheventplugin.managers
 
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
+import org.bukkit.Color
 import org.bukkit.scoreboard.*
 
 class BoardManager {
 
-    private val scoreboardManager = Bukkit.getScoreboardManager()
-
-    val scoreboard = scoreboardManager.newScoreboard
-    private var objective = scoreboard.registerNewObjective("score", Criteria.DUMMY, "Score")
+    companion object {
+        private val scoreboardManager = Bukkit.getScoreboardManager()
+        val scoreboard = this.scoreboardManager.newScoreboard
+        private var objective = scoreboard.registerNewObjective("score", Criteria.DUMMY, "Score")
+    }
 
     fun setupScoreboard() {
         objective.displaySlot = DisplaySlot.SIDEBAR
-
+        // todo: name colors with prefix
         val red = scoreboard.registerNewTeam("red")
-        red.prefix = ChatColor.RED.toString() + ""
+        red.color(NamedTextColor.RED)
         red.setAllowFriendlyFire(false)
         objective.getScore(ChatColor.RED.toString() + "Red").score = 0
         val blue = scoreboard.registerNewTeam("blue")
-        blue.prefix = ChatColor.BLUE.toString() + ""
+        blue.color(NamedTextColor.BLUE)
         blue.setAllowFriendlyFire(false)
         objective.getScore(ChatColor.BLUE.toString() + "Blue").score = 0
         val green = scoreboard.registerNewTeam("green")
-        green.prefix = ChatColor.GREEN.toString() + ""
+        green.color(NamedTextColor.GREEN)
         green.setAllowFriendlyFire(false)
         objective.getScore(ChatColor.GREEN.toString() + "Green").score = 0
         val yellow = scoreboard.registerNewTeam("yellow")
-        yellow.prefix = ChatColor.YELLOW.toString() + ""
+        yellow.color(NamedTextColor.YELLOW)
         yellow.setAllowFriendlyFire(false)
         objective.getScore(ChatColor.YELLOW.toString() + "Yellow").score = 0
         val orange = scoreboard.registerNewTeam("orange")
-        orange.prefix = ChatColor.GOLD.toString() + ""
+        orange.color(NamedTextColor.GOLD)
         orange.setAllowFriendlyFire(false)
         objective.getScore(ChatColor.GOLD.toString() + "Orange").score = 0
         val purple = scoreboard.registerNewTeam("purple")
-        purple.prefix = ChatColor.DARK_PURPLE.toString() + ""
+        purple.color(NamedTextColor.DARK_PURPLE)
         purple.setAllowFriendlyFire(false)
         objective.getScore(ChatColor.DARK_PURPLE.toString() + "Purple").score = 0
         val pink = scoreboard.registerNewTeam("pink")
-        pink.prefix = ChatColor.LIGHT_PURPLE.toString() + ""
+        pink.color(NamedTextColor.LIGHT_PURPLE)
         pink.setAllowFriendlyFire(false)
         objective.getScore(ChatColor.LIGHT_PURPLE.toString() + "Pink").score = 0
         val cyan = scoreboard.registerNewTeam("cyan")
-        cyan.prefix = ChatColor.AQUA.toString() + ""
+        cyan.color(NamedTextColor.AQUA)
         cyan.setAllowFriendlyFire(false)
         objective.getScore(ChatColor.AQUA.toString() + "Cyan").score = 0
     }
 
 
     fun updateScoreboard() {}
-
-    fun getScoreboardManager(): ScoreboardManager {
-        return scoreboardManager
-    }
 
 }

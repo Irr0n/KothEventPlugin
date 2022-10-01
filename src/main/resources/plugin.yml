@@ -9,3 +9,10 @@ commands:
   team_select:
     usage: /team_select [red, blue, green, yellow, orange, purple, pink, cyan]
     description: join a team
+  game_state:
+    permission: op
+    usage: /game_state
+    description: opens a gui to manage the game state
+  score:
+    usage: /score []
+    description: not yet implemented

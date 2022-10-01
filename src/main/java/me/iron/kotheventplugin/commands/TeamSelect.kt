@@ -6,10 +6,10 @@ import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
+import java.lang.IllegalArgumentException
 
 class TeamSelect : CommandExecutor {
 
-    private var boardManager: BoardManager = BoardManager()
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
         if (sender !is Player) {
@@ -22,22 +22,18 @@ class TeamSelect : CommandExecutor {
             return false
         }
 
-        val scoreboard = boardManager.scoreboard
+        val team = args[0]
 
-        println("you have stated " + args[0])
+        val scoreboard = BoardManager.scoreboard
 
-        when (args[0]) {
-            "red" -> {
-                println("red")
-                println(scoreboard.teams)
-                (sender as Entity).let { scoreboard.getTeam("red")?.addEntity(it) }
-
-            }
-            "blue" -> (sender as Entity).let { scoreboard.getTeam("blue")?.addEntity(it) }
+        try {
+            (sender as Entity).let { scoreboard.getTeam(team)?.addEntity(it) }
+            sender.sendMessage("You are now on the team " + (scoreboard.getEntityTeam(sender as Entity)?.name ?: "none"))
+            return true
+        } catch (_: IllegalArgumentException) {
+            sender.sendMessage("There is no team named $team")
         }
 
-        sender.sendMessage("You have joined team " + (scoreboard.getEntityTeam(sender as Entity)?.name ?: "none"))
-
-        return true
+        return false
     }
 }

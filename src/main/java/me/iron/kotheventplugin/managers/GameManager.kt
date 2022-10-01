@@ -1,22 +1,20 @@
 package me.iron.kotheventplugin.managers
 
 import me.iron.kotheventplugin.PluginManager
+import me.iron.kotheventplugin.utils.GameStates
 import me.iron.kotheventplugin.utils.RepeatTask
 import org.bukkit.*
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
-import org.bukkit.potion.PotionType
 import kotlin.random.Random
 
 class GameManager(private var plugin: PluginManager) {
-
-    private var boardManager: BoardManager = BoardManager()
 
     private var gameState: GameStates = GameStates.LOBBY
 
 
     fun startScoreboardTask() {
-        boardManager.setupScoreboard()
+        BoardManager().setupScoreboard()
         val repeatTask = RepeatTask(plugin)
         val task = repeatTask.generateRepeatTask({ updatePlayerScoreboards() }, 20)
     }
@@ -25,12 +23,12 @@ class GameManager(private var plugin: PluginManager) {
         for (player in Bukkit.getOnlinePlayers()) {
 
             // println(player.scoreboard.getEntityTeam((player as Entity)))
-            player.scoreboard = boardManager.scoreboard
+            player.scoreboard = BoardManager.scoreboard
         }
     }
 
 
-    private val borderSize = 256
+    private val borderSize = 200
 
     fun setGameState(gameState: GameStates) {
         this.gameState = gameState
@@ -47,7 +45,7 @@ class GameManager(private var plugin: PluginManager) {
             GameStates.PREP -> {
                 Bukkit.getOnlinePlayers().forEach {
                     it.gameMode = GameMode.SURVIVAL
-                    it.addPotionEffect(PotionEffect(PotionEffectType.DAMAGE_RESISTANCE,300, 1000, true))
+                    it.addPotionEffect(PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 20 * 300, 1000, true))
                     it.teleport(Location(it.world,
                         borderSize * Random.nextDouble() - borderSize,
                         256.0,
