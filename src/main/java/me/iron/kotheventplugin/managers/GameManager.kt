@@ -4,27 +4,26 @@ import me.iron.kotheventplugin.PluginManager
 import me.iron.kotheventplugin.utils.RepeatTask
 import org.bukkit.Bukkit
 import org.bukkit.entity.Entity
+import org.bukkit.scheduler.BukkitRunnable
 
-class GameManager(plugin: PluginManager) {
+class GameManager(private var plugin: PluginManager) {
 
-    private var boardManager: BoardManager? = null
-
-    private var plugin: PluginManager? = null
+    private var boardManager: BoardManager = BoardManager()
 
     private var gameState: GameState = GameState.LOBBY
 
 
     fun startScoreboardTask() {
-        boardManager?.setupScoreboard()
-        RepeatTask(plugin)
-        val task = RepeatTask({ updatePlayerScoreboards() }, 20)
+        boardManager.setupScoreboard()
+        val repeatTask = RepeatTask(plugin)
+        val task = repeatTask.generateRepeatTask({ updatePlayerScoreboards() }, 20)
     }
 
     fun updatePlayerScoreboards() {
         for (player in Bukkit.getOnlinePlayers()) {
 
             println(player.scoreboard.getEntityTeam((player as Entity)))
-            player.scoreboard = boardManager?.getScoreboard()!!
+            player.scoreboard = boardManager.getScoreboard()!!
         }
     }
 

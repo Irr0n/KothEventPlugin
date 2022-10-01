@@ -5,28 +5,20 @@ import org.bukkit.Bukkit
 import org.bukkit.plugin.Plugin
 import org.bukkit.scheduler.BukkitTask
 
-class RepeatTask {
+class RepeatTask(private var plugin: Plugin) {
 
-    private var plugin: Plugin? = null
-    private val task: BukkitTask? = null
-
-    constructor(instance: PluginManager?) {
-        this.plugin = instance
-    }
+    private var task: BukkitTask? = null
 
     /**
      *
      * @param period in ticks
      */
-    constructor(runnable: Runnable, period: Long) {
-        if (plugin!!.isEnabled) {
-            val task = Bukkit.getScheduler().runTaskTimer(plugin!!, runnable, 0, period)
+    fun generateRepeatTask(runnable: Runnable, period: Long) {
+        if (this.plugin.isEnabled) {
+            this.task = Bukkit.getScheduler().runTaskTimer(this.plugin, runnable, 0, period)
         } else {
             runnable.run()
         }
     }
 
-    fun getTask(): BukkitTask? {
-        return task
-    }
 }

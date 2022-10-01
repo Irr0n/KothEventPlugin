@@ -9,7 +9,7 @@ import org.bukkit.entity.Player
 
 class TeamSelect : CommandExecutor {
 
-    private var boardManager: BoardManager? = null
+    private var boardManager: BoardManager = BoardManager()
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
         if (sender !is Player) {
@@ -17,7 +17,11 @@ class TeamSelect : CommandExecutor {
             return true
         }
 
-        val scoreboard = boardManager?.getScoreboard()
+        if (args?.isEmpty() == true) {
+            sender.sendMessage("You need to specify a team to join.")
+        }
+
+        val scoreboard = boardManager.getScoreboard()
 
         when (args?.get(0)) {
             "red" -> (sender as Entity?)?.let { scoreboard?.getTeam("red")?.addEntity(it) }
